@@ -20,10 +20,12 @@ import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 
+import static java.awt.BorderLayout.EAST;
+
 public class Board extends JPanel implements Runnable, Commons {
 
     private Dimension d;
-    private ArrayList<Alien> aliens;
+    private ArrayList<Alien> aliensList;
     public Player player;
     private Shot shot;
 
@@ -43,7 +45,7 @@ public class Board extends JPanel implements Runnable, Commons {
         initBoard();
     }
 
-   private void initBoard() {
+    private void initBoard() {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -64,13 +66,15 @@ public class Board extends JPanel implements Runnable, Commons {
 
     public void gameInit() {
 
-        aliens = new ArrayList<>();
+
+
+        aliensList = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 6; j++) {
+            for (int j = 0; j < 4; j++) {
 
                 Alien alien = new Alien(ALIEN_INIT_X + 18 * j, ALIEN_INIT_Y + 18 * i);
-                aliens.add(alien);
+                aliensList.add(alien);
             }
         }
 
@@ -86,9 +90,9 @@ public class Board extends JPanel implements Runnable, Commons {
 
     public void drawAliens(Graphics g) {
 
-        Iterator it = aliens.iterator();
+        Iterator it = aliensList.iterator();
 
-        for (Alien alien: aliens) {
+        for (Alien alien: aliensList) {
 
             if (alien.isVisible()) {
 
@@ -126,7 +130,7 @@ public class Board extends JPanel implements Runnable, Commons {
 
     public void drawBombing(Graphics g) {
 
-        for (Alien a : aliens) {
+        for (Alien a : aliensList) {
 
             Alien.Bomb b = a.getBomb();
 
@@ -141,11 +145,11 @@ public class Board extends JPanel implements Runnable, Commons {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        Image backGroundImage = new ImageIcon("src/images/space1.png").getImage();
         g.setColor(Color.black);
         g.fillRect(0, 0, d.width, d.height);
-        g.setColor(Color.red);
-
+        g.drawImage(backGroundImage, 0, 0, this);
+        g.setColor(Color.blue);
         if (ingame) {
 
             g.drawLine(0, GROUND, BOARD_WIDTH, GROUND);
@@ -164,9 +168,11 @@ public class Board extends JPanel implements Runnable, Commons {
         Graphics g = this.getGraphics();
 
         g.setColor(Color.black);
+        Image backGroundImage = new ImageIcon("src/images/game_over.png").getImage();
         g.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+        g.drawImage(backGroundImage, 0, 0, this);
 
-        g.setColor(new Color(0, 32, 48));
+       /* g.setColor(new Color(0, 32, 48));
         g.fillRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
         g.setColor(Color.white);
         g.drawRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
@@ -177,15 +183,28 @@ public class Board extends JPanel implements Runnable, Commons {
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(message, (BOARD_WIDTH - metr.stringWidth(message)) / 2,
-                BOARD_WIDTH / 2);
+                BOARD_WIDTH / 2);*/
     }
 
     public void animationCycle() {
 
         if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 
-            ingame = false;
-            message = "Game won!";
+
+
+            aliensList = new ArrayList<>();
+
+            for (int i = 0; i < 2 +1; i++) {
+                for (int j = 0; j < 4+1; j++) {
+
+                    Alien alien = new Alien(ALIEN_INIT_X + 18 * j, ALIEN_INIT_Y + 18 * i);
+                    aliensList.add(alien);
+                }
+            }
+
+
+            //ingame = false;
+            //message = "Game won!";
         }
 
         // player
@@ -197,7 +216,7 @@ public class Board extends JPanel implements Runnable, Commons {
             int shotX = shot.getX();
             int shotY = shot.getY();
 
-            for (Alien alien: aliens) {
+            for (Alien alien: aliensList) {
 
                 int alienX = alien.getX();
                 int alienY = alien.getY();
@@ -229,14 +248,14 @@ public class Board extends JPanel implements Runnable, Commons {
 
         // aliens
 
-        for (Alien alien: aliens) {
+        for (Alien alien: aliensList) {
 
             int x = alien.getX();
 
             if (x >= BOARD_WIDTH - BORDER_RIGHT && direction != -1) {
 
                 direction = -1;
-                Iterator i1 = aliens.iterator();
+                Iterator i1 = aliensList.iterator();
 
                 while (i1.hasNext()) {
 
@@ -249,7 +268,7 @@ public class Board extends JPanel implements Runnable, Commons {
 
                 direction = 1;
 
-                Iterator i2 = aliens.iterator();
+                Iterator i2 = aliensList.iterator();
 
                 while (i2.hasNext()) {
 
@@ -259,7 +278,7 @@ public class Board extends JPanel implements Runnable, Commons {
             }
         }
 
-        Iterator it = aliens.iterator();
+        Iterator it = aliensList.iterator();
 
         while (it.hasNext()) {
 
@@ -281,7 +300,7 @@ public class Board extends JPanel implements Runnable, Commons {
         // bombs random
         Random generator = new Random();
 
-        for (Alien alien: aliens) {
+        for (Alien alien: aliensList) {
 
             int shot = generator.nextInt(150);
             Alien.Bomb b = alien.getBomb();
@@ -391,7 +410,5 @@ public class Board extends JPanel implements Runnable, Commons {
     }
 
 
-    }
-
-
+}
 

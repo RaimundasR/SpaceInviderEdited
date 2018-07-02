@@ -71,4 +71,8 @@ public abstract class Sprite {
 
         return this.dying;
     }
+
+    public void level(){
+        return;
+    }
 }

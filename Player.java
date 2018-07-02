@@ -1,6 +1,7 @@
 package BD_Zaidimas;
 
 import java.awt.event.KeyEvent;
+import java.util.AbstractMap;
 
 import javax.swing.ImageIcon;
 
@@ -10,6 +11,7 @@ public class Player extends Sprite implements Commons {
     private final int START_X = 270;
 
     private final String playerImg = "src/images/player.png";
+
     private int width;
     private int heigh;
 
@@ -85,7 +87,8 @@ public class Player extends Sprite implements Commons {
             fx = 0;
         }
         if (key == KeyEvent.VK_DOWN){
-            fx = 0;
+            fx = 0
+            ;
         }
     }
 
