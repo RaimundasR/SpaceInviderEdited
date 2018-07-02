@@ -48,6 +48,7 @@ public class Board extends JPanel implements Runnable, Commons {
     private void initBoard() {
 
         addKeyListener(new TAdapter());
+
         setFocusable(true);
         d = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
         setBackground(Color.black);
@@ -191,23 +192,29 @@ public class Board extends JPanel implements Runnable, Commons {
         if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 
 
-
             aliensList = new ArrayList<>();
+            int i;
+            int j;
 
-            for (int i = 0; i < 2 +1; i++) {
-                for (int j = 0; j < 4+1; j++) {
+            for (i = 0; i < 2 * 2; i++) {
+                for (j = 0; j < 4 * 2; j++) {
 
                     Alien alien = new Alien(ALIEN_INIT_X + 18 * j, ALIEN_INIT_Y + 18 * i);
                     aliensList.add(alien);
                 }
             }
+        }
+
 
 
             //ingame = false;
-            //message = "Game won!";
-        }
+         //   message = "Game won!";
 
-        // player
+
+
+
+
+            // player
         player.act();
 
         // shot

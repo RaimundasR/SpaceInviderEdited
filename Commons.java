@@ -14,6 +14,7 @@ public interface Commons {
     public static final int BORDER_LEFT = 5;
     public static final int GO_DOWN = 50;
     public static int NUMBER_OF_ALIENS_TO_DESTROY = 8;
+    public static int NUMBER_OF_ALIENS_TO_DESTROY1 = 16;
     //public static int NUMBER_OF_ALIENS_TO_DESTROY2 = 10;
     public static final int CHANCE = 5;
     public static final int DELAY = 17;
